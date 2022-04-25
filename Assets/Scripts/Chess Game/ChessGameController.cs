@@ -1,47 +1,38 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(PiecesCreator))]
-public abstract class ChessGameController : MonoBehaviour
+public class ChessGameController : MonoBehaviour
 {
-    protected const byte SET_GAME_STATE_EVENT_CODE = 1;
+    private enum GameState
+    {
+        Init, Play, Finished
+    }
 
     [SerializeField] private BoardLayout startingBoardLayout;
+    [SerializeField] private Board board;
+    [SerializeField] private ChessUIManager UIManager;
 
-
-    private ChessUIManager UIManager;
-    private CameraSetup cameraSetup;
-    private Board board;
     private PiecesCreator pieceCreator;
-    protected ChessPlayer whitePlayer;
-    protected ChessPlayer blackPlayer;
-    protected ChessPlayer activePlayer;
-    
+    private ChessPlayer whitePlayer;
+    private ChessPlayer blackPlayer;
+    private ChessPlayer activePlayer;
 
-    protected GameState state;
+    private GameState state;
 
     private void Awake()
     {
+        SetDependencies();
+        CreatePlayers();
+    }
+
+    private void SetDependencies()
+    {
         pieceCreator = GetComponent<PiecesCreator>();
     }
-
-    internal void SetDependencies(CameraSetup cameraSetup, ChessUIManager UIManager, Board board)
-    {
-        this.cameraSetup = cameraSetup;
-        this.UIManager = UIManager;
-        this.board = board;
-    }
-
-    public void InitializeGame()
-    {     
-        CreatePlayers();       
-    }
-
 
     private void CreatePlayers()
     {
@@ -49,28 +40,32 @@ public abstract class ChessGameController : MonoBehaviour
         blackPlayer = new ChessPlayer(TeamColor.Black, board);
     }
 
-
-    public void StartNewGame()
+    private void Start()
     {
-        UIManager.OnGameStarted();
-        SetGameState(GameState.Init);       
+        StartNewGame();
+    }
+
+    private void StartNewGame()
+    {
+        SetGameState(GameState.Init);
+        UIManager.HideUI();
+        board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
-        TryToStartThisGame();
-     
+        SetGameState(GameState.Play);
     }
-
-    protected abstract void SetGameState(GameState state);
-    public abstract void TryToStartThisGame();
-    public abstract bool CanPerformMove();
+    private void SetGameState(GameState state)
+    {
+        this.state = state;
+    }
 
     internal bool IsGameInProgress()
     {
         return state == GameState.Play;
     }
 
-    
+
 
     private void CreatePiecesFromLayout(BoardLayout layout)
     {
@@ -85,7 +80,7 @@ public abstract class ChessGameController : MonoBehaviour
         }
     }
 
-   
+
 
     public void CreatePieceAndInitialize(Vector2Int squareCoords, TeamColor team, Type type)
     {
@@ -100,13 +95,6 @@ public abstract class ChessGameController : MonoBehaviour
         ChessPlayer currentPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
         currentPlayer.AddPiece(newPiece);
     }
-
-	internal void SetupCamera(TeamColor team)
-	{
-        cameraSetup.SetupCamera(team);
-	}
-
-    
 
     private void GenerateAllPossiblePlayerMoves(ChessPlayer player)
     {
@@ -193,7 +181,5 @@ public abstract class ChessGameController : MonoBehaviour
     {
         activePlayer.RemoveMovesEnablingAttakOnPieceOfType<T>(GetOpponentToPlayer(activePlayer), piece);
     }
-
-   
 }
 

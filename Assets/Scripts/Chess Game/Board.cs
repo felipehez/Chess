@@ -4,19 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SquareSelectorCreator))]
-public abstract class Board : MonoBehaviour
+public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
+    public int board_size_x = 30;
+    public int board_size_y = 4;
 
     [SerializeField] private Transform bottomLeftSquareTransform;
     [SerializeField] private float squareSize;
 
-	private Piece[,] grid;
+    private Piece[,] grid;
     private Piece selectedPiece;
     private ChessGameController chessController;
     private SquareSelectorCreator squareSelector;
 
-    protected virtual void Awake()
+
+    private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
@@ -26,6 +29,8 @@ public abstract class Board : MonoBehaviour
     {
         this.chessController = chessController;
     }
+
+
 
     private void CreateGrid()
     {
@@ -37,21 +42,6 @@ public abstract class Board : MonoBehaviour
         return bottomLeftSquareTransform.position + new Vector3(coords.x * squareSize, 0f, coords.y * squareSize);
     }
 
-    internal void OnSetSelectedPiece(Vector2Int coords)
-    {
-        Piece piece = GetPieceOnSquare(coords);
-        selectedPiece = piece;
-    }
-
-    internal void OnSelectedPieceMoved(Vector2Int intCoords)
-    {
-        TryToTakeOppositePiece(intCoords);
-        UpdateBoardOnPieceMove(intCoords, selectedPiece.occupiedSquare, selectedPiece, null);
-        selectedPiece.MovePiece(intCoords);
-        DeselectPiece();
-        EndTurn();
-    }
-
     private Vector2Int CalculateCoordsFromPosition(Vector3 inputPosition)
     {
         int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x / squareSize) + BOARD_SIZE / 2;
@@ -61,9 +51,6 @@ public abstract class Board : MonoBehaviour
 
     public void OnSquareSelected(Vector3 inputPosition)
     {
-        if (!chessController.CanPerformMove())
-            return;
-        
         Vector2Int coords = CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
         if (selectedPiece)
@@ -71,31 +58,26 @@ public abstract class Board : MonoBehaviour
             if (piece != null && selectedPiece == piece)
                 DeselectPiece();
             else if (piece != null && selectedPiece != piece && chessController.IsTeamTurnActive(piece.team))
-                SelectPiece(coords);
+                SelectPiece(piece);
             else if (selectedPiece.CanMoveTo(coords))
-                SelectedPieceMoved(coords);
+                OnSelectedPieceMoved(coords, selectedPiece);
         }
         else
         {
             if (piece != null && chessController.IsTeamTurnActive(piece.team))
-                SelectPiece(coords);
+                SelectPiece(piece);
         }
     }
 
-    public abstract void SelectedPieceMoved(Vector2 coords);
-    public abstract void SetSelectedPiece(Vector2 coords);
 
 
-
-    private void SelectPiece(Vector2Int coords)
+    private void SelectPiece(Piece piece)
     {
-        Piece piece = GetPieceOnSquare(coords);
         chessController.RemoveMovesEnablingAttakOnPieceOfType<King>(piece);
-        SetSelectedPiece(coords);    
+        selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
     }
-   
 
     private void ShowSelectionSquares(List<Vector2Int> selection)
     {
@@ -114,8 +96,14 @@ public abstract class Board : MonoBehaviour
         selectedPiece = null;
         squareSelector.ClearSelection();
     }
-
-   
+    private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
+    {
+        TryToTakeOppositePiece(coords);
+        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+        selectedPiece.MovePiece(coords);
+        DeselectPiece();
+        EndTurn();
+    }
 
     private void EndTurn()
     {
@@ -155,7 +143,6 @@ public abstract class Board : MonoBehaviour
         return false;
     }
 
-
     public void SetPieceOnBoard(Vector2Int coords, Piece piece)
     {
         if (CheckIfCoordinatesAreOnBoard(coords))
@@ -193,7 +180,5 @@ public abstract class Board : MonoBehaviour
         selectedPiece = null;
         CreateGrid();
     }
-
- 
 
 }
