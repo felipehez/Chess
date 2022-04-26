@@ -14,6 +14,7 @@ public class ColliderInputReciever : InputReciever
             if (Physics.Raycast(ray, out hit))
             {
                 clickPosition = hit.point;
+                print(" x "+hit.point.x + " y "+hit.point.y);
                 OnInputRecieved();
             }
         }

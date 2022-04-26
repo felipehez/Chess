@@ -11,7 +11,9 @@ public class Board : MonoBehaviour
     public int board_size_y = 4;
 
     [SerializeField] private Transform bottomLeftSquareTransform;
-    [SerializeField] private float squareSize;
+    [SerializeField] float squareSize;
+    [SerializeField] float squareSizeX;
+    [SerializeField] float squareSizeY;
 
     private Piece[,] grid;
     private Piece selectedPiece;
@@ -34,7 +36,7 @@ public class Board : MonoBehaviour
 
     private void CreateGrid()
     {
-        grid = new Piece[BOARD_SIZE, BOARD_SIZE];
+        grid = new Piece[board_size_x, board_size_y];
     }
 
     public Vector3 CalculatePositionFromCoords(Vector2Int coords)

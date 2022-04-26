@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a6f23894481784984ec1b4820381bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBoardLayout: {fileID: 11400000, guid: 001dde28de1a60043a1f23afb9f7812f,
+  startingBoardLayout: {fileID: 11400000, guid: 0f940f5b5a6bb054db874f26f99a7958,
     type: 2}
   board: {fileID: 5265858340144138424}
   UIManager: {fileID: 1263572175}
@@ -1474,7 +1474,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 14.88, y: 1, z: 14.45}
+  m_Size: {x: 14.26, y: 1, z: 14.45}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5265858340144138423
 MonoBehaviour:
@@ -1501,9 +1501,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board_size_x: 30
-  board_size_y: 4
+  board_size_y: 8
   bottomLeftSquareTransform: {fileID: 723030976}
   squareSize: 1.5
+  squareSizeX: 0
+  squareSizeY: 0
 --- !u!114 &5265858340144138425
 MonoBehaviour:
   m_ObjectHideFlags: 0
