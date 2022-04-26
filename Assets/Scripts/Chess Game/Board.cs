@@ -46,8 +46,8 @@ public class Board : MonoBehaviour
 
     private Vector2Int CalculateCoordsFromPosition(Vector3 inputPosition)
     {
-        int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x / squareSize) + BOARD_SIZE / 2;
-        int y = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).z / squareSize) + BOARD_SIZE / 2;
+        int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x / squareSize) + board_size_x / 2;
+        int y = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).z / squareSize) + board_size_y / 2;
         return new Vector2Int(x, y);
     }
 
