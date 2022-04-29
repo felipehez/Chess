@@ -15,7 +15,7 @@ public class MineBoard : MonoBehaviour
 
     private Piece[,] grid;
     private Piece selectedPiece;
-    private ChessGameController chessController;
+    private MineChessGameController chessController;
 
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class MineBoard : MonoBehaviour
         CreateGrid();
     }
 
-    public void SetDependencies(ChessGameController chessController)
+    public void SetDependencies(MineChessGameController chessController)
     {
         this.chessController = chessController;
     }

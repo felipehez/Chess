@@ -6,46 +6,47 @@ using UnityEngine;
 
 public enum FrenteColor
 {
-    // Black, White, Red, Orange, Yellow, Green, Cyan, Blue, Pink
+     Black, White, Red, Orange, Yellow, Green, Cyan, Blue, Pink
 }
 
 public enum ElementType
 {
-    // Pawn, Bishop, Knight, Rook, Queen, King
+    Pilote, VigaCepado, VigaProyecto, PlataformaRodado, PlataformaAnclaje, PlataformaEquipos, Grua
 }
 
-//[CreateAssetMenu(menuName = "Scriptable Objects/Board/MineLayout")]
+[CreateAssetMenu(menuName = "Scriptable Objects/Board/MineLayout")]
 public class MineBoardLayout : ScriptableObject
 {
-    
-    private class MineBoardSquareSetup
+    [Serializable]
+    private class PosturaInicial
     {
-        public Vector3 position;
-        public PieceType pieceType;
-        public TeamColor teamColor;
+        public Vector2Int position;
+        public ElementType elementType;
+        public FrenteColor frenteColor;
     }
 
-    [SerializeField] private MineBoardSquareSetup[] boardSquares;
+    [SerializeField] PosturaInicial[] posturaInicial;
 
 
-    /*
     public int GetPiecesCount()
     {
-        return boardSquares.Length;
+        return posturaInicial.Length;
     }
 
     public Vector2Int GetSquareCoordsAtIndex(int index)
     {
-        return new Vector2Int(boardSquares[index].position.x - 1, boardSquares[index].position.y - 1);
+        return new Vector2Int(posturaInicial[index].position.x - 1, posturaInicial[index].position.y - 1);
     }
-    public string GetSquarePieceNameAtIndex(int index)
+    public string GetCepaElementNameAtIndex(int index)
     {
-        return boardSquares[index].pieceType.ToString();
+        return posturaInicial[index].elementType.ToString();
     }
-    public TeamColor GetSquareTeamColorAtIndex(int index)
+    
+    public FrenteColor GetSquareFrenteColorAtIndex(int index)
     {
-        return boardSquares[index].teamColor;
+         return posturaInicial[index].frenteColor;
     }
-    */
+    
+    
 
 }
