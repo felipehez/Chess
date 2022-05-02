@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,40 +7,41 @@ public class MineBoard : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public int board_size_x = 30;
-    public int board_size_z = 4;
+    [Header("Board Size:")]
+    public int X_SIZE = 30;
+    public int Z_SIZE = 4;
 
-    [SerializeField] private Transform gridOrigin;    
+    [Space()]
+    [SerializeField] private Transform _gridOrigin;
     [SerializeField] float squareSizeX;
     [SerializeField] float squareSizeY;
 
-    private Piece[,] grid;
-    private Piece selectedPiece;
-    private MineChessGameController chessController;
+    private ElementPiece[,] _grid;
+    private ElementPiece _selectedElement;
+    private MineChessGameController _chessController;
 
     private void Awake()
     {
-        //squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
     }
 
-    public void SetDependencies(MineChessGameController chessController)
-    {
-        this.chessController = chessController;
-    }
-
-    void Start()
-    {
-        
-    }
     private void CreateGrid()
     {
-        grid = new Piece[board_size_x, board_size_z];
+        _grid = new ElementPiece[X_SIZE, Z_SIZE];
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 CalculatePositionFromCoords(Vector2Int coords)
     {
-        
+        return _gridOrigin.position + new Vector3(coords.x * squareSizeX, 0f, coords.y * squareSizeY);
+    }
+
+    public void OnSquareSelected(Vector3 inputPosition)
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool HasElement(ElementPiece element)
+	{
+        throw new NotImplementedException();
     }
 }
