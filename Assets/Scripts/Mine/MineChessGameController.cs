@@ -24,7 +24,7 @@ public class MineChessGameController : MonoBehaviour
     void Start()
     {
         //CreatePiecesFromLayout(startingBoardLayout);
-        board.SetDependencies(this);
+        //board.SetDependencies(this);
     }
 
     private void CreatePiecesFromLayout(MineBoardLayout layout)
