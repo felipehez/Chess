@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ElementCreator))]
 public class MineChessGameController : MonoBehaviour
 {    
     private enum GameState
@@ -10,21 +11,24 @@ public class MineChessGameController : MonoBehaviour
         Init, Play, Finished
     }
 
+    [SerializeField] private MineBoardLayout startingBoardLayout;
     [SerializeField] private MineBoard board;
 
-    private ElementCreator elementCreator;
-    private ChessPlayer whitePlayer;
-    private ChessPlayer blackPlayer;
-    private ChessPlayer activePlayer;
+    private ElementCreator _elementCreator;
 
-    [SerializeField] private MineBoardLayout startingBoardLayout;
-    [SerializeField] private MineBoard mineBoard;
-    //[SerializeField] private ChessUIManager UIManager;
+	private void Awake()
+	{
+        SetDependencies(this);
+    }
 
-    void Start()
+	private void SetDependencies(MineChessGameController mineChessGameController)
+	{
+        _elementCreator = GetComponent<ElementCreator>();
+	}
+
+	void Start()
     {
-        //CreatePiecesFromLayout(startingBoardLayout);
-        board.SetDependencies(this);
+        CreatePiecesFromLayout(startingBoardLayout);
     }
 
     private void CreatePiecesFromLayout(MineBoardLayout layout)
@@ -36,24 +40,20 @@ public class MineChessGameController : MonoBehaviour
             string typeName = layout.GetCepaElementNameAtIndex(i);
 
             Type type = Type.GetType(typeName);
-            //CreateElementAndInitialize(squareCoords, frente, type);
+            CreateElementAndInitialize(squareCoords, frente, type);
         }
     }
 
-    /*
-    public void CreateElementAndInitialize(Vector2Int squareCoords, FrenteColor frente, Type type)
-    {
-        ElementCreator newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
-        newPiece.SetData(squareCoords, frente, board);
 
-        //Material teamMaterial = pieceCreator.GetTeamMaterial(team);
-        //newPiece.SetMaterial(teamMaterial);
+	public void CreateElementAndInitialize(Vector2Int squareCoords, FrenteColor frente, Type type)
+	{
+		ElementPiece newElement = _elementCreator.CreateElement(type).GetComponent<ElementPiece>();
+        newElement.SetData(squareCoords, frente, board);
 
-        board.SetPieceOnBoard(squareCoords, newPiece, FrenteColor);
+        board.SetElementOnBoard(squareCoords, newElement);
 
-        ChessPlayer currentPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
-        currentPlayer.AddPiece(newPiece);
+		//ChessPlayer currentPlayer = team == TeamColor.White ? whitePlayer : blackPlayer;
+		//currentPlayer.AddPiece(newElement);
+	}
 
-    }
-    */
 }

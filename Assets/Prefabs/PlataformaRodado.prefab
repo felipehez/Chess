@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6974296387541581281}
   - component: {fileID: 6297850913033531972}
   - component: {fileID: 8107184392669709966}
+  - component: {fileID: 1014868113}
   m_Layer: 0
   m_Name: PlataformaRodado
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7746891955938060123}
-  m_LocalRotation: {x: 0.00000008145486, y: 9.42904e-10, z: 0.011575006, w: 0.99993306}
+  m_LocalRotation: {x: 0, y: 0, z: 0.011571259, w: 0.99993306}
   m_LocalPosition: {x: 198.03, y: 1.41, z: 4.79}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1014868113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7746891955938060123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefa6f5cb64bd6e4786aba48e3eca360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  avaliableMoves: []
