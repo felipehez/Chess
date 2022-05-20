@@ -32,8 +32,6 @@ public class Board : MonoBehaviour
         this.chessController = chessController;
     }
 
-
-
     private void CreateGrid()
     {
         grid = new Piece[board_size_x, board_size_y];
@@ -70,8 +68,6 @@ public class Board : MonoBehaviour
                 SelectPiece(piece);
         }
     }
-
-
 
     private void SelectPiece(Piece piece)
     {
@@ -169,7 +165,6 @@ public class Board : MonoBehaviour
             Destroy(piece.gameObject);
         }
     }
-
 
     public void PromotePiece(Piece piece)
     {

@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class ElementPiece : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	private MaterialSetter materialSetter;
+	public MineBoard board { get; set; }
+	public Vector2Int occupiedSquare { get; set; }
+	public ElementPieceType elementType { get; set; } 
 }
